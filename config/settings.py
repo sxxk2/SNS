@@ -113,7 +113,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = "apps.account.Account"
+AUTH_USER_MODEL = "account.Account"
 
 # SimpleJWT
 REST_FRAMEWORK = {
