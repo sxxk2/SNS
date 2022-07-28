@@ -38,6 +38,9 @@ class SignInSerializer(TokenObtainPairSerializer):
         if Account.objects.filter(email=email).exists():
             account = Account.objects.get(email=email)
 
+            if not account.is_active:
+                raise serializers.ValidationError("비활성화된 계정입니다.")
+
             if not account.check_password(password):
                 raise serializers.ValidationError("아이디 또는 비밀번호를 잘못 입력했습니다.")  # 비밀번호 틀림
         else:
@@ -52,3 +55,49 @@ class SignInSerializer(TokenObtainPairSerializer):
             "refresh": refresh_token,
         }
         return data
+
+
+class AccountDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = [
+            "id",
+            "account_name",
+            "user_name",
+            "bio",
+            "website",
+            "profile_image",
+            "updated_at",
+        ]
+        extra_kwargs = {"id": {"read_only": True}}
+
+    def validate(self, data):
+        account_name = data.get("account_name")
+
+        if Account.objects.filter(account_name=account_name).exists():
+            raise serializers.ValidationError("이미 사용중인 사용자 이름입니다.")
+
+        return data
+
+    def update(self, instance, validated_data):
+        user = super().update(instance, validated_data)
+        user.save()
+        return user
+
+
+class AccountDeleteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = [
+            "id",
+            "is_active",
+            "deleted_at",
+        ]
+        extra_kwargs = {"id": {"read_only": True}}
+
+    def update(self, instance, validated_data):
+        if not instance.is_active:
+            raise serializers.ValidationError("이미 삭제된 유저입니다.")
+        instance.is_active = False
+        instance.save()
+        return instance
