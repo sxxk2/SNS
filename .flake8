@@ -5,6 +5,7 @@ exclude =
     .gitignore,
     */migrations/*,
     __pycache__,
+    __init__.py,
 ignore =
     E203,
     E501,
