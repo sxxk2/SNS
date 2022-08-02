@@ -1,4 +1,6 @@
-from rest_framework import generics, status
+from rest_framework import exceptions, status
+from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -14,6 +16,9 @@ from apps.utils import IsOwnerOrReadOnly
 
 # api/v1/accounts/signup
 class SignUpView(APIView):
+
+    permission_classes = [AllowAny]
+
     def post(self, request):
         serializer = SignUpSerializer(data=request.data)
 
@@ -28,6 +33,9 @@ class SignUpView(APIView):
 
 # api/v1/accounts/signin
 class SignInView(APIView):
+
+    permission_classes = [AllowAny]
+
     def post(self, request):
         serializer = SignInSerializer(data=request.data)
 
@@ -48,7 +56,8 @@ class SignInView(APIView):
 
 
 # api/v1/accounts/<int:pk>
-class AccountView(generics.RetrieveUpdateAPIView):
+class AccountView(RetrieveUpdateAPIView):
+
     permission_classes = [IsOwnerOrReadOnly]
 
     def get_queryset(self):
@@ -72,3 +81,28 @@ class AccountView(generics.RetrieveUpdateAPIView):
 
     def delete(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+
+
+# api/v1/accounts/restore
+class AccountRestoreView(APIView):
+
+    permission_classes = [AllowAny]
+
+    def put(self, request):
+        email = request.data.get("email")
+        password = request.data.get("password")
+
+        if Account.objects.filter(email=email).exists():
+            account = Account.objects.get(email=email)
+
+            if account.is_active:
+                raise exceptions.ValidationError("잘못된 접근입니다")  # 활성화중인 계정
+
+            if not account.check_password(password):
+                raise exceptions.ValidationError("아이디 또는 비밀번호를 잘못 입력했습니다.")  # 비밀번호 틀림
+        else:
+            raise exceptions.ValidationError("아이디 또는 비밀번호를 잘못 입력했습니다.")  # 아이디 없음
+
+        account.is_active = True
+        account.save()
+        return Response({"message": "계정이 활성화되었습니다."}, status=status.HTTP_200_OK)
