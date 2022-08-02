@@ -57,6 +57,7 @@ class SignInSerializer(TokenObtainPairSerializer):
         return data
 
 
+# api/v1/accounts/<int:pk>
 class AccountDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
@@ -85,6 +86,7 @@ class AccountDetailSerializer(serializers.ModelSerializer):
         return user
 
 
+# api/v1/accounts/<int:pk>
 class AccountDeleteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
@@ -97,7 +99,7 @@ class AccountDeleteSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         if not instance.is_active:
-            raise serializers.ValidationError("이미 삭제된 유저입니다.")
+            raise serializers.ValidationError("이미 비활성화된 유저입니다.")
         instance.is_active = False
         instance.save()
         return instance
