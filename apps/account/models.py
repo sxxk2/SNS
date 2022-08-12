@@ -18,10 +18,11 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, nickname, password=None):
+    def create_superuser(self, email, account_name, password=None):
         user = self.create_user(
             email,
             password=password,
+            account_name=account_name,
         )
         user.is_admin = True
         user.save(using=self._db)
@@ -31,7 +32,7 @@ class UserManager(BaseUserManager):
 class Account(AbstractBaseUser, TimeStampedModel):
     # required
     email = models.EmailField(unique=True)
-    account_name = models.CharField("계정의 이름", max_length=50, unique=True)
+    account_name = models.CharField("계정의 이름", max_length=50, unique=True, blank=True, null=True)
     # password = models.CharField(_("password"), max_length=128) inherited from AbstractBaseUser
 
     # optional

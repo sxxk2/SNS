@@ -1,8 +1,10 @@
+import requests
 from rest_framework import exceptions, status
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from apps.account.models import Account
 from apps.account.serializers import (
@@ -106,3 +108,38 @@ class AccountRestoreView(APIView):
         account.is_active = True
         account.save()
         return Response({"message": "계정이 활성화되었습니다."}, status=status.HTTP_200_OK)
+
+
+# api/v1/accounts/kakao/signin
+class KakaoSignInView(APIView):
+
+    permission_classes = [AllowAny]
+
+    def post(self, reqeust):
+        try:
+            access_token = reqeust.data["access_token"]  # 카카오에서 전달받은 엑세스토큰
+            account_info = requests.get(
+                "https://kapi.kakao.com/v2/user/me", headers={"Authorization": f"Bearer {access_token}"}
+            ).json()
+            email = account_info["kakao_account"]["email"]
+
+            if Account.objects.filter(email=email).exists():
+                account = Account.objects.get(email=email)
+            else:
+                account = Account.objects.create(email=email)
+
+            # 서비스의 토큰 발급
+            token = TokenObtainPairSerializer.get_token(account)
+            access_token = str(token.access_token)
+            refresh_token = str(token)
+
+            return Response(
+                {
+                    "message": "로그인 되었습니다.",
+                    "access_token": access_token,
+                    "refresh_token": refresh_token,
+                },
+                status=status.HTTP_200_OK,
+            )
+        except KeyError:
+            return Response({"message": "Key error"})
