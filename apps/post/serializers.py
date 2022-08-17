@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from apps.post.models import Post, Tag
 
@@ -33,6 +33,28 @@ class PostCreateSerializer(ModelSerializer):
             "title",
             "content",
             "tags",
+            "created_at",
+        ]
+        extra_kwargs = {"id": {"read_only": True}}
+
+
+class PostListSerializer(ModelSerializer):
+
+    writer = SerializerMethodField()
+    tags = TagSerializer(many=True)
+
+    def get_writer(self, obj):
+        return obj.writer.account_name
+
+    class Meta:
+        model = Post
+        fields = [
+            "id",
+            "writer",
+            "title",
+            "content",
+            "tags",
+            "views",
             "created_at",
         ]
         extra_kwargs = {"id": {"read_only": True}}
