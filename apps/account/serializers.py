@@ -8,6 +8,12 @@ from apps.account.models import Account
 
 # api/v1/accounts/signup
 class SignUpSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        account = Account.objects.create_user(**validated_data)
+        account.set_password(validated_data.get("password"))
+        account.save()
+        return account
+
     class Meta:
         model = Account
         fields = [
@@ -17,22 +23,9 @@ class SignUpSerializer(serializers.ModelSerializer):
         ]
         extra_kwargs = {"password": {"write_only": True}}
 
-    def create(self, validated_data):
-        account = Account.objects.create_user(**validated_data)
-        account.set_password(validated_data.get("password"))
-        account.save()
-        return account
-
 
 # api/v1/accounts/signin
 class SignInSerializer(TokenObtainPairSerializer):
-    class Meta:
-        model = Account
-        fields = [
-            "email",
-            "password",
-        ]
-
     def validate(self, data):
         email = data.get("email")
         password = data.get("password")
@@ -58,22 +51,16 @@ class SignInSerializer(TokenObtainPairSerializer):
         }
         return data
 
-
-# api/v1/accounts/<int:pk>
-class AccountDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = [
-            "id",
-            "account_name",
-            "user_name",
-            "bio",
-            "website",
-            "profile_image",
-            "updated_at",
+            "email",
+            "password",
         ]
-        extra_kwargs = {"id": {"read_only": True}}
 
+
+# api/v1/accounts/<int:pk>
+class AccountDetailSerializer(serializers.ModelSerializer):
     def validate(self, data):
         account_name = data.get("account_name")
 
@@ -87,9 +74,30 @@ class AccountDetailSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+    class Meta:
+        model = Account
+        fields = [
+            "id",
+            "account_name",
+            "user_name",
+            "bio",
+            "website",
+            "profile_image",
+            "updated_at",
+        ]
+        extra_kwargs = {"id": {"read_only": True}}
+
 
 # api/v1/accounts/<int:pk>
 class AccountDeleteSerializer(serializers.ModelSerializer):
+    def update(self, instance, validated_data):
+        if not instance.is_active:
+            raise serializers.ValidationError("이미 비활성화된 유저입니다.")
+        instance.is_active = False
+        instance.deleted_at = datetime.now()
+        instance.save()
+        return instance
+
     class Meta:
         model = Account
         fields = [
@@ -98,11 +106,3 @@ class AccountDeleteSerializer(serializers.ModelSerializer):
             "deleted_at",
         ]
         extra_kwargs = {"id": {"read_only": True}}
-
-    def update(self, instance, validated_data):
-        if not instance.is_active:
-            raise serializers.ValidationError("이미 비활성화된 유저입니다.")
-        instance.is_active = False
-        instance.deleted_at = datetime.now()
-        instance.save()
-        return instance
