@@ -46,6 +46,7 @@ class Account(AbstractBaseUser, TimeStampedModel):
     is_verified = models.BooleanField("공식 계정 여부", default=False)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    deleted_at = models.DateTimeField(null=True)
     """
     inherited from TimeStampedModel
     created_at = models.DateTimeField(auto_now_add=True)

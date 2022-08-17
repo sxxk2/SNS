@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -101,5 +103,6 @@ class AccountDeleteSerializer(serializers.ModelSerializer):
         if not instance.is_active:
             raise serializers.ValidationError("이미 비활성화된 유저입니다.")
         instance.is_active = False
+        instance.deleted_at = datetime.now()
         instance.save()
         return instance
