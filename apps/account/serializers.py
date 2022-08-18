@@ -1,13 +1,14 @@
 from datetime import datetime
 
 from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from apps.account.models import Account
 
 
 # api/v1/accounts/signup
-class SignUpSerializer(serializers.ModelSerializer):
+class SignUpSerializer(ModelSerializer):
     def create(self, validated_data):
         account = Account.objects.create_user(**validated_data)
         account.set_password(validated_data.get("password"))
@@ -60,7 +61,7 @@ class SignInSerializer(TokenObtainPairSerializer):
 
 
 # api/v1/accounts/<int:pk>
-class AccountDetailSerializer(serializers.ModelSerializer):
+class AccountDetailSerializer(ModelSerializer):
     def validate(self, data):
         account_name = data.get("account_name")
 
@@ -89,7 +90,7 @@ class AccountDetailSerializer(serializers.ModelSerializer):
 
 
 # api/v1/accounts/<int:pk>
-class AccountDeleteSerializer(serializers.ModelSerializer):
+class AccountDeleteSerializer(ModelSerializer):
     def update(self, instance, validated_data):
         if not instance.is_active:
             raise serializers.ValidationError("이미 비활성화된 유저입니다.")

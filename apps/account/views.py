@@ -69,7 +69,7 @@ class AccountView(RetrieveUpdateAPIView):
     def get_serializer_class(self):
         if self.request.method == "GET":
             return AccountDetailSerializer
-        elif self.request.method == "PUT":
+        elif self.request.method == "PATCH":
             return AccountDetailSerializer
         elif self.request.method == "DELETE":
             return AccountDeleteSerializer
@@ -78,8 +78,14 @@ class AccountView(RetrieveUpdateAPIView):
         serializer = self.get_serializer(self.get_object())
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def put(self, request, *args, **kwargs):
+    """
+    inherited from RetrieveUpdateAPIView
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+    """
 
     def delete(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
@@ -101,11 +107,12 @@ class AccountRestoreView(APIView):
                 raise exceptions.ValidationError("잘못된 접근입니다")  # 활성화중인 계정
 
             if not account.check_password(password):
-                raise exceptions.ValidationError("아이디 또는 비밀번호를 잘못 입력했습니다.")  # 비밀번호 틀림
+                raise exceptions.ValidationError("아이디 또는 비밀번호를 잘못 입력했습니다.")
         else:
-            raise exceptions.ValidationError("아이디 또는 비밀번호를 잘못 입력했습니다.")  # 아이디 없음
+            raise exceptions.ValidationError("아이디 또는 비밀번호를 잘못 입력했습니다.")
 
         account.is_active = True
+        account.deleted_at = None
         account.save()
         return Response({"message": "계정이 활성화되었습니다."}, status=status.HTTP_200_OK)
 
