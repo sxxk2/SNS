@@ -7,13 +7,13 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from apps.account.models import Account
+from apps.account.permissions import IsOwnerOrReadOnly
 from apps.account.serializers import (
     AccountDeleteSerializer,
     AccountDetailSerializer,
     SignInSerializer,
     SignUpSerializer,
 )
-from apps.utils import IsOwnerOrReadOnly
 
 
 # api/v1/accounts/signup
