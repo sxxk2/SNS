@@ -1,11 +1,20 @@
 from django.db.models import Q
 from rest_framework import status
+from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.post.models import Post
-from apps.post.serializers import PostCreateSerializer, PostListSerializer
+from apps.post.permissions import IsOwnerOrReadOnly
+from apps.post.serializers import (
+    PostCreateSerializer,
+    PostDeleteSerializer,
+    PostDetailSerializer,
+    PostListSerializer,
+    PostRestoreSerializer,
+    PostUpdateSerializer,
+)
 
 
 # api/v1/posts
@@ -56,3 +65,46 @@ class PostView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except KeyError:
             return Response({"message": "Key error"})
+
+
+# api/v1/posts/<int:pk>
+class PostDetailView(RetrieveUpdateAPIView):
+
+    permission_classes = [IsOwnerOrReadOnly]
+
+    def get_queryset(self):
+        queryset = Post.objects.filter(pk=self.kwargs["pk"])
+        return queryset
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return PostDetailSerializer
+        elif self.request.method == "PATCH":
+            return PostUpdateSerializer
+        elif self.request.method == "PUT":
+            return PostRestoreSerializer
+        elif self.request.method == "DELETE":
+            return PostDeleteSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        post = self.get_object()
+        post.views += 1
+        post.save()
+        serializer = self.get_serializer(post)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    """
+    inherited from RetrieveUpdateAPIView
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+    """
+
+    def put(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
