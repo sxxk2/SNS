@@ -30,7 +30,7 @@
 <br>
 
   - 인증된 사용자는 자신의 계정의 정보를 수정, 삭제 할 수 있습니다.
-  - 인증되지 않은 사용자는 자신의 계정을 복구 할 수 있습니다.
+  - 삭제된 계정 복구시에는 인증이 필요하지 않습니다.
 
 <br>
 
@@ -91,13 +91,17 @@
 - Lint
   - flack8
 
-#### 💻 Local
+<br>
+
+### 💻 Local
 <img width="662" alt="스크린샷 2022-08-19 오후 6 55 20" src="https://user-images.githubusercontent.com/83942213/185594792-dab3b933-9885-423a-a1b7-6f2c36d7af69.png">
 
 - pre-commit 라이브러리를 통해 commit 시 자동으로 스테이징되어있는 코드에 대해 Formatter와 Lint를 실행합니다.
 - 통과가 되지않는다면 커밋은 발생하지 않습니다.
 
-#### 🗄 Repository
+<br>
+
+### 🗄 Repository
 <img width="1261" alt="스크린샷 2022-08-19 오후 7 16 54" src="https://user-images.githubusercontent.com/83942213/185597932-354cd857-330e-4f83-a372-2042b1035c64.png">
 
 - push시, main 브랜치에 변경점이 있을시 gitahub actions를 통해 코드컨벤션을 체크합니다.
@@ -106,6 +110,10 @@
 <br>
 
 ## ✏️ 커밋 컨벤션
+
+<br>
+
+<img width="242" alt="스크린샷 2022-08-19 오후 8 18 11" src="https://user-images.githubusercontent.com/83942213/185607374-7cae65be-7cd6-4717-b1e9-7b3ee04f9340.png">
 
 - type <br>
 Init    : 초기화 <br>
@@ -117,8 +125,6 @@ Style   : 스타일 (코드 형식, 세미콜론 추가: 비즈니스 로직에 
 Docs    : 문서 (문서 추가(Add), 수정, 삭제) <br>
 Test    : 테스트 (테스트 코드 추가, 수정, 삭제: 비즈니스 로직에 변경 없음) <br>
 Chore   : 기타 변경사항 (빌드 스크립트 수정 등) <br>
-
-<img width="242" alt="스크린샷 2022-08-19 오후 8 18 11" src="https://user-images.githubusercontent.com/83942213/185607374-7cae65be-7cd6-4717-b1e9-7b3ee04f9340.png">
 
 - type : 내용 (#issue번호)의 형식으로 커밋을 남깁니다.
 - 필요시 rebase를 활용해 불필요한 커밋을 최소화합니다.
@@ -133,7 +139,7 @@ Chore   : 기타 변경사항 (빌드 스크립트 수정 등) <br>
 <img width="928" alt="스크린샷 2022-08-19 오후 7 26 25" src="https://user-images.githubusercontent.com/83942213/185613409-2402808f-e57b-4ed2-a49f-c15b36f06450.png">
 
 - pull reuqest template가 .github 디렉토리에 저장되어있어, PR 생성시 자동으로 불러와집니다.
-- 해당 PR에 대한 배경지식이 없는 동료 리뷰어에게 리뷰를 받는다는 마음으로 객관적으로 항목들을 작성합니다.
+- 해당 PR에 대한 배경지식이 없거나 적은 동료 리뷰어에게 리뷰를 받는다는 전제로 객관적으로 항목들을 작성합니다.
 - 작성한 API의 호출 테스트를 사진과 함께 첨부합니다.
 
 <br>
@@ -141,10 +147,7 @@ Chore   : 기타 변경사항 (빌드 스크립트 수정 등) <br>
 
 ## 🚀 API 호출 테스트
 
-<details>
-  <summary><b> Postman 호출 테스트</b> </summary> <br>
-<div markdown="1">
-
+<br>
 
 ### Account
 
@@ -335,5 +338,3 @@ Chore   : 기타 변경사항 (빌드 스크립트 수정 등) <br>
 
 
 
-</div>
-</details>
