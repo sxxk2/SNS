@@ -60,7 +60,9 @@
 <br>
 
 ## 📜 API Document
-<img width="925" alt="스크린샷 2022-08-19 오후 6 51 24" src="https://user-images.githubusercontent.com/83942213/185593496-3b3a5bd3-f08b-4ece-afff-f82410b5bcb2.png">
+<img width="906" alt="스크린샷 2022-08-22 오후 11 09 05" src="https://user-images.githubusercontent.com/83942213/185942011-7436468f-39c6-49a9-aeaa-866242feb488.png">
+
+
 
 <br>
 
