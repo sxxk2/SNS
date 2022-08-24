@@ -14,6 +14,7 @@ black = "*"
 flake8 = "*"
 pre-commit = "*"
 python-dotenv = "*"
+gunicorn = "*"
 
 [dev-packages]
 
