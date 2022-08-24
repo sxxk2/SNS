@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    container_name: backend
+    command: sh -c "pipenv run gunicorn config.wsgi:application --bind 0.0.0.0:8000"
+    expose:
+      - "8000"
+    volumes:
+      - ./:/app/
+    restart: always
+
+  nginx:
+    image: nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./static/:/static/
+    depends_on:
+      - backend
+    restart: always
