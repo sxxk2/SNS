@@ -11,7 +11,8 @@
 5. [API Document](#-api-document)
 6. [브랜치 전략](#-브랜치-전략)
 7. [컨벤션](#-코드-컨벤션)
-8. [API 호출 테스트](#-api-호출-테스트)
+8. [배포](#-배포)
+9. [API 호출 테스트](#-api-호출-테스트)
 
 
 <br>
@@ -19,24 +20,28 @@
 ## ✅ Summary
 <br>
 
-  - 사용자가 게시물로써 소통하는 Social network service 입니다.
+- 사용자가 게시물로써 소통하는 Social network service 입니다.
 
 <br>
 
-  - 인증은 JWT 토큰으로 이루어집니다.
-  - 회원가입, 로그인 기능을 제공합니다.
-  - 카카오 서비스를 이용한 회원가입, 로그인 기능을 제공합니다.
+- AWS RDS, EC2, Docker-compose, Gunicorn, NGINX를 사용하여 배포했습니다.
 
 <br>
 
-  - 인증된 사용자는 자신의 계정의 정보를 수정, 삭제 할 수 있습니다.
-  - 삭제된 계정 복구시에는 인증이 필요하지 않습니다.
+- 인증은 JWT 토큰으로 이루어집니다.
+- 회원가입, 로그인 기능을 제공합니다.
+- 카카오 서비스를 이용한 회원가입, 로그인 기능을 제공합니다.
 
 <br>
 
-  - 인증된 사용자는 게시물을 생성, 수정, 삭제, 복구 할 수 있습니다.
-  - 인증된 사용자는 게시물들을 검색, 필터, 정렬을 통해 조회 할 수 있습니다.
-  - 인증된 사용자는 생성된 게시물을 열람 할 수 있습니다.
+- 인증된 사용자는 자신의 계정의 정보를 수정, 삭제 할 수 있습니다.
+- 삭제된 계정 복구시에는 인증이 필요하지 않습니다.
+
+<br>
+
+- 인증된 사용자는 게시물을 생성, 수정, 삭제, 복구 할 수 있습니다.
+- 인증된 사용자는 게시물들을 검색, 필터, 정렬을 통해 조회 할 수 있습니다.
+- 인증된 사용자는 생성된 게시물을 열람 할 수 있습니다.
 
 <br>
 
@@ -47,10 +52,20 @@
 <img src="https://img.shields.io/badge/Django-092E20?style=plastic&logo=Django&logoColor=white"/>
 <img src="https://img.shields.io/badge/Django Rest Framework-EE350F?style=plastic&logo=Django&logoColor=white"/>
 <img src="https://img.shields.io/badge/MySQL-00979D?style=plastic&logo=MySQL&logoColor=white"/>
+
+<br>
+
+<img src="https://img.shields.io/badge/AWS EC2-FF9900?style=plastic&logo=amazon ec2&logoColor=white"/>
+<img src="https://img.shields.io/badge/AWS RDS-527FFF?style=plastic&logo=amazon rds&logoColor=white"/>
+<img src="https://img.shields.io/badge/Docker-2496ED?style=plastic&logo=docker&logoColor=white"/>
+<img src="https://img.shields.io/badge/Gunicorn-499848?style=plastic&logo=gunicorn&logoColor=white"/>
+<img src="https://img.shields.io/badge/NGINX-009639?style=plastic&logo=nginx&logoColor=white"/>
+
+<br>
+
 <img src="https://img.shields.io/badge/Github Actions-2088FF?style=plastic&logo=github actions&logoColor=white"/>
 <img src="https://img.shields.io/badge/Git-F05032?style=plastic&logo=Git&logoColor=white"/>
 <img src="https://img.shields.io/badge/GitHub-grey?style=plastic&logo=github&logoColor=181717"/>
-
 
 <br>
 
@@ -68,9 +83,13 @@
 
 ## 🔗 Task 관리
 
-- Github의<a href="https://github.com/sxxk2/SNS/issues" target="_blank">Issue</a>와
+<img width="1102" alt="스크린샷 2022-08-25 오후 5 51 18" src="https://user-images.githubusercontent.com/83942213/186620407-9fa7d748-0e1d-4167-95ff-f421e6841173.png">
+
+
+- Github의 <a href="https://github.com/sxxk2/SNS/issues" target="_blank">Issue</a> 와 
 <a href="https://github.com/users/sxxk2/projects/5" target="_blank">Projects</a>를 사용합니다.
-- issue 생성으로부터 개발을 시작해 해당 기능을 개발 후 commit시 issue번호를 commit에 남깁니다.
+- issue 생성으로부터 개발을 시작하며 해당 기능을 개발 후 commit시 issue번호를 commit에 남깁니다.
+- 명확한 라벨을 사용해 다른 작업자들도 한 눈에 보기 쉽게 구성했습니다.
  
 <br>
 
@@ -98,7 +117,7 @@
 ### 💻 Local
 <img width="662" alt="스크린샷 2022-08-19 오후 6 55 20" src="https://user-images.githubusercontent.com/83942213/185594792-dab3b933-9885-423a-a1b7-6f2c36d7af69.png">
 
-- pre-commit 라이브러리를 통해 commit 시 자동으로 스테이징되어있는 코드에 대해 Formatter와 Lint를 실행합니다.
+- pre-commit 라이브러리를 통해 commit 시 자동으로 스테이징되어있는 코드에 대해 Formatter와 Linter를 실행합니다.
 - 통과가 되지않는다면 커밋은 발생하지 않습니다.
 
 <br>
@@ -146,8 +165,19 @@ Chore   : 기타 변경사항 (빌드 스크립트 수정 등) <br>
 
 <br>
 
+## 🚀 배포
 
-## 🚀 API 호출 테스트
+
+![SNS 구조](https://user-images.githubusercontent.com/83942213/186617934-d6b1c88c-8cde-4cb8-9685-c628abab3658.png)
+
+<img width="458" alt="스크린샷 2022-08-25 오후 3 32 10" src="https://user-images.githubusercontent.com/83942213/186616248-76cec426-286e-4a56-a627-0716c1175290.png">
+
+- 배포 주소는 http://43.200.46.93/ 입니다.
+- AWS RDS, Docker-compose, Gunicorn, Nginx를 사용해 AWS EC2서버에 배포했습니다.
+
+<br>
+
+## 👌🏻 API 호출 테스트
 
 <br>
 
