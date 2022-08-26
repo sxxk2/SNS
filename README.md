@@ -167,8 +167,8 @@ Chore   : 기타 변경사항 (빌드 스크립트 수정 등) <br>
 
 ## 🚀 배포
 
+![SNS deploy structure](https://user-images.githubusercontent.com/83942213/186927642-5a075c5e-d84c-4d56-867a-90ea96afe76d.jpeg)
 
-![SNS 구조](https://user-images.githubusercontent.com/83942213/186617934-d6b1c88c-8cde-4cb8-9685-c628abab3658.png)
 
 <img width="458" alt="스크린샷 2022-08-25 오후 3 32 10" src="https://user-images.githubusercontent.com/83942213/186616248-76cec426-286e-4a56-a627-0716c1175290.png">
 
