@@ -173,6 +173,7 @@ Chore   : 기타 변경사항 (빌드 스크립트 수정 등) <br>
 <img width="458" alt="스크린샷 2022-08-25 오후 3 32 10" src="https://user-images.githubusercontent.com/83942213/186616248-76cec426-286e-4a56-a627-0716c1175290.png">
 
 - 배포 주소는 http://43.200.46.93/ 입니다.
+- 비용의 문제로 AWS 인스턴스는 중지상태입니다.
 - AWS RDS, Docker-compose, Gunicorn, Nginx를 사용해 AWS EC2서버에 배포했습니다.
 
 <br>
