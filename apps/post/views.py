@@ -1,6 +1,7 @@
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from rest_framework import status
-from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.generics import RetrieveUpdateAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -81,8 +82,6 @@ class PostDetailView(RetrieveUpdateAPIView):
             return PostDetailSerializer
         elif self.request.method == "PATCH":
             return PostUpdateSerializer
-        elif self.request.method == "PUT":
-            return PostRestoreSerializer
         elif self.request.method == "DELETE":
             return PostDeleteSerializer
 
@@ -93,18 +92,25 @@ class PostDetailView(RetrieveUpdateAPIView):
         serializer = self.get_serializer(post)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    """
-    inherited from RetrieveUpdateAPIView
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def patch(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
-    """
-
-    def put(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
-
     def delete(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+
+
+# api/v1/posts/<int:pk>/restore
+class PostRestoreView(UpdateAPIView):
+
+    permission_classes = [IsOwnerOrReadOnly]
+
+    def get_queryset(self):
+        queryset = Post.objects.filter(is_deleted=True, pk=self.kwargs["pk"])
+        return queryset
+
+    def get_object(self):
+        filter_kwargs = {self.lookup_field: self.kwargs["pk"]}
+        obj = get_object_or_404(self.get_queryset(), **filter_kwargs)
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+    def get_serializer_class(self):
+        if self.request.method == "PATCH":
+            return PostRestoreSerializer
