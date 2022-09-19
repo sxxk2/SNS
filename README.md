@@ -76,7 +76,7 @@
 
 ## 📜 API 명세서
 
-<img width="914" alt="스크린샷 2022-09-19 오후 11 59 08" src="https://user-images.githubusercontent.com/83942213/191048617-1e8165ab-d58b-4129-92c9-ed8a3f9ac9df.png">
+<img width="911" alt="스크린샷 2022-09-20 오전 12 16 51" src="https://user-images.githubusercontent.com/83942213/191052998-76413347-a444-4627-9d41-768b2dbea724.png">
 
 <br>
 
