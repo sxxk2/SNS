@@ -96,7 +96,7 @@ class AccountRestoreView(APIView):
 
     permission_classes = [AllowAny]
 
-    def put(self, request):
+    def patch(self, request):
         email = request.data.get("email")
         password = request.data.get("password")
 
@@ -104,7 +104,7 @@ class AccountRestoreView(APIView):
             account = Account.objects.get(email=email)
 
             if account.is_active:
-                raise exceptions.ValidationError("잘못된 접근입니다")  # 활성화중인 계정
+                raise exceptions.ValidationError("잘못된 접근입니다")  # 삭제되지 않은 계정
 
             if not account.check_password(password):
                 raise exceptions.ValidationError("아이디 또는 비밀번호를 잘못 입력했습니다.")

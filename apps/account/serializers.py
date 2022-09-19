@@ -35,7 +35,7 @@ class SignInSerializer(TokenObtainPairSerializer):
             account = Account.objects.get(email=email)
 
             if not account.is_active:
-                raise serializers.ValidationError("비활성화된 계정입니다.")
+                raise serializers.ValidationError("삭제된 계정입니다.")
 
             if not account.check_password(password):
                 raise serializers.ValidationError("아이디 또는 비밀번호를 잘못 입력했습니다.")  # 비밀번호 틀림
