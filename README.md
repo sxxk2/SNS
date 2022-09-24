@@ -6,12 +6,12 @@
 
 1. [Summary](#-summary)
 2. [사용 기술](#-사용-기술)
-3. [ERD](#-erd)
-4. [Task 관리](#-task-관리)
-5. [API 명세서](#-api-명세서)
-6. [브랜치 전략](#-브랜치-전략)
-7. [컨벤션](#-코드-컨벤션)
-8. [배포](#-배포)
+3. [배포](#-배포)
+4. [ERD](#-erd)
+5. [Task 관리](#-task-관리)
+6. [API 명세서](#-api-명세서)
+7. [브랜치 전략](#-브랜치-전략)
+8. [컨벤션](#-코드-컨벤션)
 9. [API 호출 테스트](#-api-호출-테스트)
 
 
@@ -64,8 +64,21 @@
 <br>
 
 <img src="https://img.shields.io/badge/Github Actions-2088FF?style=plastic&logo=github actions&logoColor=white"/>
+<img src="https://img.shields.io/badge/Pytest-0A9EDC?style=plastic&logo=pytest&logoColor=white"/>
 <img src="https://img.shields.io/badge/Git-F05032?style=plastic&logo=Git&logoColor=white"/>
 <img src="https://img.shields.io/badge/GitHub-grey?style=plastic&logo=github&logoColor=181717"/>
+
+<br>
+
+## 🚀 배포
+
+![SNS deploy structure](https://user-images.githubusercontent.com/83942213/186927642-5a075c5e-d84c-4d56-867a-90ea96afe76d.jpeg)
+
+<img width="458" alt="스크린샷 2022-08-25 오후 3 32 10" src="https://user-images.githubusercontent.com/83942213/186616248-76cec426-286e-4a56-a627-0716c1175290.png">
+
+- 배포 주소는 http://43.200.46.93/ 입니다.
+- 비용의 문제로 AWS 인스턴스는 중지상태입니다.
+- AWS RDS, Docker-compose, Gunicorn, Nginx를 사용해 AWS EC2서버에 배포했습니다.
 
 <br>
 
@@ -161,19 +174,6 @@ Chore   : 기타 변경사항 (빌드 스크립트 수정 등) <br>
 - pull reuqest template가 .github 디렉토리에 저장되어있어, PR 생성시 자동으로 불러와집니다.
 - 해당 PR에 대한 배경지식이 없거나 적은 동료 리뷰어에게 리뷰를 받는다는 전제로 객관적으로 항목들을 작성합니다.
 - 작성한 API의 호출 테스트를 사진과 함께 첨부합니다.
-
-<br>
-
-## 🚀 배포
-
-![SNS deploy structure](https://user-images.githubusercontent.com/83942213/186927642-5a075c5e-d84c-4d56-867a-90ea96afe76d.jpeg)
-
-
-<img width="458" alt="스크린샷 2022-08-25 오후 3 32 10" src="https://user-images.githubusercontent.com/83942213/186616248-76cec426-286e-4a56-a627-0716c1175290.png">
-
-- 배포 주소는 http://43.200.46.93/ 입니다.
-- 비용의 문제로 AWS 인스턴스는 중지상태입니다.
-- AWS RDS, Docker-compose, Gunicorn, Nginx를 사용해 AWS EC2서버에 배포했습니다.
 
 <br>
 
