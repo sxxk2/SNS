@@ -104,7 +104,7 @@ class AccountRestoreView(APIView):
             account = Account.objects.get(email=email)
 
             if account.is_active:
-                raise exceptions.ValidationError("잘못된 접근입니다")  # 삭제되지 않은 계정
+                raise exceptions.ValidationError("잘못된 접근입니다.")  # 삭제되지 않은 계정
 
             if not account.check_password(password):
                 raise exceptions.ValidationError("아이디 또는 비밀번호를 잘못 입력했습니다.")
@@ -114,7 +114,7 @@ class AccountRestoreView(APIView):
         account.is_active = True
         account.deleted_at = None
         account.save()
-        return Response({"message": "계정이 활성화되었습니다."}, status=status.HTTP_200_OK)
+        return Response({"message": "계정이 복구되었습니다."}, status=status.HTTP_200_OK)
 
 
 # api/v1/accounts/kakao/signin
