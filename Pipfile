@@ -15,6 +15,7 @@ flake8 = "*"
 pre-commit = "*"
 python-dotenv = "*"
 gunicorn = "*"
+pytest-django = "*"
 
 [dev-packages]
 
