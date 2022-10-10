@@ -25,6 +25,7 @@
 <br>
 
 - AWS RDS, EC2, Docker-compose, Gunicorn, NGINX를 사용하여 배포했습니다.
+- Swagger를 적용해 API문서를 확인하며 직접 호출 해 볼 수 있습니다.
 
 <br>
 
@@ -46,6 +47,8 @@
 <br>
 
 ## 🛠 사용 기술
+
+<div align="center">
 <br>
 
 <img src="https://img.shields.io/badge/Python-blue?style=plastic&logo=Python&logoColor=white"/>
@@ -53,6 +56,7 @@
 <img src="https://img.shields.io/badge/Django Rest Framework-EE350F?style=plastic&logo=Django&logoColor=white"/>
 <img src="https://img.shields.io/badge/MySQL-00979D?style=plastic&logo=MySQL&logoColor=white"/>
 
+<br>
 <br>
 
 <img src="https://img.shields.io/badge/AWS EC2-FF9900?style=plastic&logo=amazon ec2&logoColor=white"/>
@@ -62,12 +66,15 @@
 <img src="https://img.shields.io/badge/NGINX-009639?style=plastic&logo=nginx&logoColor=white"/>
 
 <br>
+<br>
 
 <img src="https://img.shields.io/badge/Github Actions-2088FF?style=plastic&logo=github actions&logoColor=white"/>
 <img src="https://img.shields.io/badge/Pytest-0A9EDC?style=plastic&logo=pytest&logoColor=white"/>
+<img src="https://img.shields.io/badge/Swagger-%23Clojure?style=plastic&logo=swagger&logoColor=white"/>
 <img src="https://img.shields.io/badge/Git-F05032?style=plastic&logo=Git&logoColor=white"/>
 <img src="https://img.shields.io/badge/GitHub-grey?style=plastic&logo=github&logoColor=181717"/>
 
+</div>
 <br>
 
 ## 🚀 배포
