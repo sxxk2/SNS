@@ -1,5 +1,6 @@
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.generics import RetrieveUpdateAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -16,6 +17,7 @@ from apps.post.serializers import (
     PostRestoreSerializer,
     PostUpdateSerializer,
 )
+from apps.post.swagger import PostDeleteResponse, limit, offset, search, sort, tag
 
 
 # api/v1/posts
@@ -23,6 +25,7 @@ class PostView(APIView):
 
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(request_body=PostCreateSerializer)
     def post(self, request):
         serializer = PostCreateSerializer(data=request.data, context={"user": request.user})
 
@@ -32,6 +35,9 @@ class PostView(APIView):
         else:
             return Response({"message": "게시글 작성에 실패했습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
+    @swagger_auto_schema(
+        responses={200: PostListSerializer(many=True)}, manual_parameters=[search, tag, sort, offset, limit]
+    )
     def get(self, request):
         try:
             search = request.GET.get("search", None)
@@ -72,6 +78,7 @@ class PostView(APIView):
 class PostDetailView(RetrieveUpdateAPIView):
 
     permission_classes = [IsOwnerOrReadOnly]
+    allowed_methods = ["GET", "PATCH", "DELETE"]
 
     def get_queryset(self):
         queryset = Post.objects.filter(pk=self.kwargs["pk"])
@@ -92,6 +99,7 @@ class PostDetailView(RetrieveUpdateAPIView):
         serializer = self.get_serializer(post)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @swagger_auto_schema(responses=PostDeleteResponse)
     def delete(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
@@ -100,6 +108,7 @@ class PostDetailView(RetrieveUpdateAPIView):
 class PostRestoreView(UpdateAPIView):
 
     permission_classes = [IsOwnerOrReadOnly]
+    allowed_methods = ["PATCH"]
 
     def get_queryset(self):
         queryset = Post.objects.filter(is_deleted=True, pk=self.kwargs["pk"])
