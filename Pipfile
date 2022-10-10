@@ -16,6 +16,7 @@ pre-commit = "*"
 python-dotenv = "*"
 gunicorn = "*"
 pytest-django = "*"
+drf-yasg = "*"
 
 [dev-packages]
 
