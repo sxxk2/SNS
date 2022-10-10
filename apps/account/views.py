@@ -1,4 +1,5 @@
 import requests
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import exceptions, status
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny
@@ -14,6 +15,14 @@ from apps.account.serializers import (
     SignInSerializer,
     SignUpSerializer,
 )
+from apps.account.swagger import (
+    AccountDeleteResponse,
+    AccountRestoreResponse,
+    AccountRestoreSchema,
+    KakaoSignInResponse,
+    SignInResponse,
+    SignUpResponse,
+)
 
 
 # api/v1/accounts/signup
@@ -21,6 +30,7 @@ class SignUpView(APIView):
 
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(request_body=SignUpSerializer, responses=SignUpResponse)
     def post(self, request):
         serializer = SignUpSerializer(data=request.data)
 
@@ -30,7 +40,7 @@ class SignUpView(APIView):
                 {"message": "회원가입에 성공했습니다."},
                 status=status.HTTP_201_CREATED,
             )
-        return Response({"message": "회원가입에 실패했습니다."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message": "회원가입에 실패했습니다."}, status=400)
 
 
 # api/v1/accounts/signin
@@ -38,6 +48,7 @@ class SignInView(APIView):
 
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(request_body=SignInSerializer, responses=SignInResponse)
     def post(self, request):
         serializer = SignInSerializer(data=request.data)
 
@@ -61,6 +72,7 @@ class SignInView(APIView):
 class AccountView(RetrieveUpdateAPIView):
 
     permission_classes = [IsOwnerOrReadOnly]
+    allowed_methods = ["GET", "PATCH", "DELETE"]
 
     def get_queryset(self):
         queryset = Account.objects.filter(is_active=True, pk=self.kwargs["pk"])
@@ -87,6 +99,7 @@ class AccountView(RetrieveUpdateAPIView):
         return self.partial_update(request, *args, **kwargs)
     """
 
+    @swagger_auto_schema(responses=AccountDeleteResponse)
     def delete(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
@@ -96,6 +109,7 @@ class AccountRestoreView(APIView):
 
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(request_body=AccountRestoreSchema, responses=AccountRestoreResponse)
     def patch(self, request):
         email = request.data.get("email")
         password = request.data.get("password")
@@ -122,6 +136,7 @@ class KakaoSignInView(APIView):
 
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(responses=KakaoSignInResponse)
     def post(self, reqeust):
         try:
             access_token = reqeust.data["access_token"]  # 카카오에서 전달받은 엑세스토큰
